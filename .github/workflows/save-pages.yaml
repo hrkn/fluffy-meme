@@ -23,6 +23,8 @@ jobs:
   # ページを保存(ビルド)するジョブ
   save:
     runs-on: ubuntu-latest
+    container:
+      image: lwthiker/curl-impersonate:0.6.1-chrome-slim-bullseye
     steps:
       - name: Checkout (Optional)
         uses: actions/checkout@v4
@@ -30,9 +32,9 @@ jobs:
       # 2. Webページを保存
       - name: Download Web Page
         run: |
-          curl -s --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" --create-dirs -o public/%E4%B8%80%E8%88%AC%E8%AC%9B%E5%BA%A7%E2%91%A0/index.html https://www.556.ch/%E4%B8%80%E8%88%AC%E8%AC%9B%E5%BA%A7%E2%91%A0/
-          curl -s --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" --create-dirs -o public/%E4%B8%80%E8%88%AC%E8%AC%9B%E5%BA%A7%E2%91%A1/index.html https://www.556.ch/%E4%B8%80%E8%88%AC%E8%AC%9B%E5%BA%A7%E2%91%A1/
-          curl -s --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" --create-dirs -o public/%E9%99%90%E5%AE%9A%E8%AC%9B%E5%BA%A7/index.html https://www.556.ch/%E9%99%90%E5%AE%9A%E8%AC%9B%E5%BA%A7/
+          curl_chrome110 -s --create-dirs -o "public/一般講座①/index.html" https://www.556.ch/%E4%B8%80%E8%88%AC%E8%AC%9B%E5%BA%A7%E2%91%A0/
+          curl_chrome110 -s --create-dirs -o "public/一般講座②/index.html" https://www.556.ch/%E4%B8%80%E8%88%AC%E8%AC%9B%E5%BA%A7%E2%91%A1/
+          curl_chrome110 -s --create-dirs -o "public/限定講座/index.html" https://www.556.ch/%E9%99%90%E5%AE%9A%E8%AC%9B%E5%BA%A7/
           echo "It works!" >public/index.html
 
       # 保存したファイルをGitHub Pages用にアップロード
