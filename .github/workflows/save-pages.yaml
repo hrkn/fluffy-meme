@@ -1,0 +1,54 @@
+name: Save Web Page and Deploy
+
+on:
+  # 1. Cronライクなスケジュール設定 (UTC時間)
+  schedule:
+    # 毎日 日本時間 午前9時 (UTC 0:00) に実行
+    - cron: '0 */3 * * *'
+  # 手動でも実行できるようにする設定
+  workflow_dispatch:
+
+# GitHub Pagesへのデプロイに必要な権限設定
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同時実行の制御 (進行中のデプロイがあればキャンセル)
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # ページを保存(ビルド)するジョブ
+  save:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (Optional)
+        uses: actions/checkout@v4
+
+      # 2. Webページを保存
+      - name: Download Web Page
+        run: |
+          curl -s --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" --create-dirs -o public/%E4%B8%80%E8%88%AC%E8%AC%9B%E5%BA%A7%E2%91%A0/index.html https://www.556.ch/%E4%B8%80%E8%88%AC%E8%AC%9B%E5%BA%A7%E2%91%A0/
+          curl -s --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" --create-dirs -o public/%E4%B8%80%E8%88%AC%E8%AC%9B%E5%BA%A7%E2%91%A1/index.html https://www.556.ch/%E4%B8%80%E8%88%AC%E8%AC%9B%E5%BA%A7%E2%91%A1/
+          curl -s --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" --create-dirs -o public/%E9%99%90%E5%AE%9A%E8%AC%9B%E5%BA%A7/index.html https://www.556.ch/%E9%99%90%E5%AE%9A%E8%AC%9B%E5%BA%A7/
+          echo "It works!" >public/index.html
+
+      # 保存したファイルをGitHub Pages用にアップロード
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './public'
+
+  # 3. GitHub Pagesへ公開するジョブ
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: save
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
