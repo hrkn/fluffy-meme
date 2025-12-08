@@ -4,7 +4,7 @@ on:
   # 1. Cronライクなスケジュール設定 (UTC時間)
   schedule:
     # 毎日 日本時間 午前9時 (UTC 0:00) に実行
-    - cron: '0 */3 * * *'
+    - cron: '49 */13 * * *'
   # 手動でも実行できるようにする設定
   workflow_dispatch:
 
