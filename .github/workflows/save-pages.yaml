@@ -3,7 +3,7 @@ name: Save Web Page and Deploy
 on:
   # 1. Cronライクなスケジュール設定 (UTC時間)
   schedule:
-    # 毎日 日本時間 午前9時 (UTC 0:00) に実行
+    # 毎日 日本時間 9時/22時49分(UTC 0時/13時49分)に実行
     - cron: '49 */13 * * *'
   # 手動でも実行できるようにする設定
   workflow_dispatch:
@@ -32,9 +32,9 @@ jobs:
       # 2. Webページを保存
       - name: Download Web Page
         run: |
-          curl_chrome110 -s --fail --show-error --create-dirs -o "public/一般講座①/index.html" https://www.556.ch/%E4%B8%80%E8%88%AC%E8%AC%9B%E5%BA%A7%E2%91%A0/
-          curl_chrome110 -s --fail --show-error --create-dirs -o "public/一般講座②/index.html" https://www.556.ch/%E4%B8%80%E8%88%AC%E8%AC%9B%E5%BA%A7%E2%91%A1/
-          curl_chrome110 -s --fail --show-error --create-dirs -o "public/限定講座/index.html" https://www.556.ch/%E9%99%90%E5%AE%9A%E8%AC%9B%E5%BA%A7/
+          curl_chrome110 -s --fail --show-error --create-dirs -o "public/一般講座①/index.html" --show-error --retry 5  --retry-all-errors https://www.556.ch/%E4%B8%80%E8%88%AC%E8%AC%9B%E5%BA%A7%E2%91%A0/
+          curl_chrome110 -s --fail --show-error --create-dirs -o "public/一般講座②/index.html" --show-error --retry 5  --retry-all-errors https://www.556.ch/%E4%B8%80%E8%88%AC%E8%AC%9B%E5%BA%A7%E2%91%A1/
+          curl_chrome110 -s --fail --show-error --create-dirs -o "public/限定講座/index.html"   --show-error --retry 5  --retry-all-errors https://www.556.ch/%E9%99%90%E5%AE%9A%E8%AC%9B%E5%BA%A7/
           echo "It works!" >public/index.html
 
       # 保存したファイルをGitHub Pages用にアップロード
