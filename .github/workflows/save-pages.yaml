@@ -32,10 +32,11 @@ jobs:
       # 2. Webページを保存
       - name: Download Web Page
         run: |
-          curl_chrome110 -s --fail --show-error --create-dirs -o "public/一般講座①/index.html" --show-error --retry 5  --retry-all-errors https://www.556.ch/%E4%B8%80%E8%88%AC%E8%AC%9B%E5%BA%A7%E2%91%A0/
-          curl_chrome110 -s --fail --show-error --create-dirs -o "public/一般講座②/index.html" --show-error --retry 5  --retry-all-errors https://www.556.ch/%E4%B8%80%E8%88%AC%E8%AC%9B%E5%BA%A7%E2%91%A1/
-          curl_chrome110 -s --fail --show-error --create-dirs -o "public/限定講座/index.html"   --show-error --retry 5  --retry-all-errors https://www.556.ch/%E9%99%90%E5%AE%9A%E8%AC%9B%E5%BA%A7/
-          echo "It works!" >public/index.html
+          curl_chrome110 -s --fail --show-error --create-dirs -o "public/一般講座①/index.html" --show-error --retry 5  --retry-all-errors https://www.556.ch/%E4%B8%80%E8%88%AC%E8%AC%9B%E5%BA%A7%E2%91%A0/ &
+          curl_chrome110 -s --fail --show-error --create-dirs -o "public/一般講座②/index.html" --show-error --retry 5  --retry-all-errors https://www.556.ch/%E4%B8%80%E8%88%AC%E8%AC%9B%E5%BA%A7%E2%91%A1/ &
+          curl_chrome110 -s --fail --show-error --create-dirs -o "public/限定講座/index.html"   --show-error --retry 5  --retry-all-errors https://www.556.ch/%E9%99%90%E5%AE%9A%E8%AC%9B%E5%BA%A7/ &
+          echo "It works!" >public/index.html &
+          wait
 
       # 保存したファイルをGitHub Pages用にアップロード
       - name: Upload artifact
